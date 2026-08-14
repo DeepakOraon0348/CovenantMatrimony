@@ -47,5 +47,5 @@ urlpatterns = [
     path("api/documents/", include("apps.documents.urls")),
     path("api/user_subscriptions/", include("apps.user_subscriptions.urls")),
     path("api/marriages/", include("apps.marriages.urls")),
-    path("api/prayers/", include("apps.prayers.urls"))
+    path("api/prayers/", include("apps.prayers.urls")),
 ]

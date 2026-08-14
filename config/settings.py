@@ -39,7 +39,7 @@ SECRET_KEY = "django-insecure-f)ncyl5nl8wyapw$z5tx8n=4%0f=4%vw+i5yoii_&t7x5aa*w$
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["covenantmatrimony-1.onrender.com",]
 
 
 # Application definition

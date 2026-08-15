@@ -24,28 +24,18 @@ class UserSubscriptionService:
         now = timezone.now()
 
         # Check whether user already has active subscription
-        active_subscription = (
-            UserSubscription.objects.filter(
-                user=user,
-                is_active=True,
-                expiry_date__gt=now,
-            )
-            .first()
-        )
+        active_subscription = UserSubscription.objects.filter(
+            user=user,
+            is_active=True,
+            expiry_date__gt=now,
+        ).first()
 
         if active_subscription:
 
-            raise ValueError(
-                "User already has an active subscription."
-            )
+            raise ValueError("User already has an active subscription.")
 
         # Calculate expiry date
-        expiry_date = (
-            now
-            + timedelta(
-                days=plan.duration_days
-            )
-        )
+        expiry_date = now + timedelta(days=plan.duration_days)
 
         subscription = UserSubscription.objects.create(
             user=user,
@@ -56,13 +46,12 @@ class UserSubscriptionService:
         )
 
         return subscription
-    
+
     @staticmethod
     def get_my_subscription(user):
 
         subscription = (
-            UserSubscription.objects
-            .filter(
+            UserSubscription.objects.filter(
                 user=user,
                 is_active=True,
             )
@@ -72,12 +61,10 @@ class UserSubscriptionService:
 
         if not subscription:
 
-            raise ValueError(
-                "No active subscription found."
-            )
+            raise ValueError("No active subscription found.")
 
         return subscription
-    
+
     @staticmethod
     def get_subscription_by_id(subscription_id, user):
 
@@ -88,7 +75,7 @@ class UserSubscriptionService:
         )
 
         return subscription
-    
+
     @staticmethod
     def cancel_subscription(
         subscription_id,
@@ -99,13 +86,11 @@ class UserSubscriptionService:
             UserSubscription,
             id=subscription_id,
             user=user,
-       )
+        )
 
         if not subscription.is_active:
 
-            raise ValueError(
-                "Subscription is already inactive."
-            )
+            raise ValueError("Subscription is already inactive.")
 
         subscription.is_active = False
 
@@ -123,31 +108,30 @@ class UserSubscriptionService:
 
             profile.is_photo_visible = False
 
-        profile.save(
-            update_fields=[
-                "is_photo_visible",
-                "updated_at",
-            ]
-        )
+            profile.save(
+                update_fields=[
+                    "is_photo_visible",
+                    "updated_at",
+                ]
+            )
 
         return subscription
-    
+
     @staticmethod
     def expire_subscriptions():
 
         now = timezone.now()
 
-        expired_subscriptions = (
-            UserSubscription.objects.filter(
-                is_active=True,
-                expiry_date__lte=now,
-            )
+        expired_subscriptions = UserSubscription.objects.filter(
+            is_active=True,
+            expiry_date__lte=now,
         )
 
         expired_count = 0
 
         for subscription in expired_subscriptions:
 
+            # 1. Deactivate subscription
             subscription.is_active = False
 
             subscription.save(
@@ -157,36 +141,37 @@ class UserSubscriptionService:
                 ]
             )
 
-        user = subscription.user
+            # 2. Get user
+            user = subscription.user
 
-        if hasattr(user, "profile"):
+            # 3. Check user's profile
+            if hasattr(user, "profile"):
 
-            profile = user.profile
+                profile = user.profile
 
-            # Check if user has another active subscription
-            another_active_subscription = (
-                UserSubscription.objects.filter(
-                    user=user,
-                    is_active=True,
-                    expiry_date__gt=now,
-                )
-                .exclude(
-                    id=subscription.id
-                )
-                .exists()
-            )
-
-            if not another_active_subscription:
-
-                profile.is_photo_visible = False
-
-                profile.save(
-                    update_fields=[
-                        "is_photo_visible",
-                        "updated_at",
-                    ]
+                # 4. Check if user has another active subscription
+                another_active_subscription = (
+                    UserSubscription.objects.filter(
+                        user=user,
+                        is_active=True,
+                        expiry_date__gt=now,
+                    )
+                    .exclude(id=subscription.id)
+                    .exists()
                 )
 
-        expired_count += 1
+                # 5. Hide photo if no active subscription remains
+                if not another_active_subscription:
+
+                    profile.is_photo_visible = False
+
+                    profile.save(
+                        update_fields=[
+                            "is_photo_visible",
+                            "updated_at",
+                        ]
+                    )
+
+            expired_count += 1
 
         return expired_count

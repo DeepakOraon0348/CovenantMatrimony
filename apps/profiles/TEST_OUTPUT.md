@@ -535,7 +535,7 @@ Authorization: Bearer <access_token>
     }
 }
 ```
-# 12. Approved profile API: http://127.0.0.1:8000/api/profiles/RejectProfile/?profile_id=3
+# 12. Approved profile API: http://127.0.0.1:8000/api/profiles/ProfileApproval/?profile_id=3
 
 ## Method: patch
 ## Query Parameters: Params

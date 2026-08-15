@@ -66,22 +66,36 @@ class CreateInterestRequestAPI(APIView):
 
             print(
                 "Sender Profile:",
-                sender_profile
+                sender_profile.is_photo_visible
             )
 
             print(
                 "Receiver Profile:",
-                receiver_profile
+                receiver_profile.is_photo_visible
             )
-
-            interest_request = (
-                InterestRequestService
-                .create_interest_request(
-                    sender_profile=sender_profile,
-                    receiver_profile=receiver_profile,
-                    message=message,
+            if(sender_profile.is_photo_visible and receiver_profile.is_photo_visible):
+                interest_request = (
+                    InterestRequestService
+                        .create_interest_request(
+                        sender_profile=sender_profile,
+                        receiver_profile=receiver_profile,
+                        message=message,
+                   )
                 )
-            )
+            elif(receiver_profile.is_photo_visible):
+                return Response(
+                    {
+                        "message":"Receiver not allow to create match."
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
+            else:
+                return Response(
+                    {
+                        "message":"Not allow to create match.",
+                    },
+                    status=status.HTTP_400_BAD_REQUEST,
+                )
 
         except Profile.DoesNotExist:
 

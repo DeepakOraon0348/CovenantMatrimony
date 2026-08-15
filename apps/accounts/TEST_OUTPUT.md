@@ -285,4 +285,275 @@
     "total": 5
 }
 ```
-# 5. 
+# 5. get user Dashboard: http://127.0.0.1:8000/api/auth/MyDashboard/
+## Method: GET
+## Query parameters: onlu user login required.
+- Response:-
+```json
+{
+    "message": "Dashboard data fetched successfully.",
+    "data": {
+        "profile": {
+            "id": 4,
+            "profile_id": "MAT000004",
+            "height": "5.8",
+            "weight": 68,
+            "education": "B.Tech",
+            "occupation": "Software Engineer",
+            "annual_income": "800000.00",
+            "about_me": "I am a software engineer looking for a life partner.",
+            "profile_type": "GROOM",
+            "gender": "MALE",
+            "date_of_birth": "1999-05-10",
+            "marital_status": "UNMARRIED",
+            "profile_photo": "/profiles/photos/WhatsApp_Image_2026-07-31_at_11.19.12.jpeg",
+            "is_profile_completed": false,
+            "profile_status": "VERIFIED",
+            "is_photo_visible": true,
+            "is_verified": true,
+            "is_active": true,
+            "created_at": "2026-08-08T07:02:30.995540Z",
+            "updated_at": "2026-08-13T05:51:02.079972Z",
+            "user": 7,
+            "denomination": 1
+        },
+        "subscription": {
+            "id": 3,
+            "plan": 2,
+            "start_date": "2026-08-13T05:51:02.034735Z",
+            "expiry_date": "2026-09-12T05:51:02.034735Z",
+            "is_active": true,
+            "created_at": "2026-08-13T05:51:02.054161Z",
+            "updated_at": "2026-08-13T05:51:02.054195Z",
+            "user": 7
+        },
+        "interests": {
+            "sent": [
+                {
+                    "id": 1,
+                    "sender_profile": 4,
+                    "receiver_profile": 2,
+                    "status": "REJECTED",
+                    "message": "I am interested in your profile.",
+                    "created_at": "2026-08-12T10:31:20.997180Z",
+                    "updated_at": "2026-08-12T18:22:36.330268Z"
+                },
+                {
+                    "id": 2,
+                    "sender_profile": 4,
+                    "receiver_profile": 3,
+                    "status": "PENDING",
+                    "message": "I am interested in your profile.",
+                    "created_at": "2026-08-12T10:35:20.535888Z",
+                    "updated_at": "2026-08-12T10:35:20.536572Z"
+                }
+            ],
+            "received": [
+                {
+                    "id": 3,
+                    "sender_profile": 6,
+                    "receiver_profile": 4,
+                    "status": "ACCEPTED",
+                    "message": "I am interested in your profile.",
+                    "created_at": "2026-08-12T10:55:53.251008Z",
+                    "updated_at": "2026-08-12T12:18:57.904456Z"
+                },
+                {
+                    "id": 4,
+                    "sender_profile": 7,
+                    "receiver_profile": 4,
+                    "status": "REJECTED",
+                    "message": "I am interested in your profile.",
+                    "created_at": "2026-08-12T12:33:36.751587Z",
+                    "updated_at": "2026-08-12T17:54:44.348081Z"
+                },
+                {
+                    "id": 5,
+                    "sender_profile": 8,
+                    "receiver_profile": 4,
+                    "status": "ACCEPTED",
+                    "message": "I am interested in your profile.",
+                    "created_at": "2026-08-13T07:29:21.524530Z",
+                    "updated_at": "2026-08-13T07:29:56.578437Z"
+                },
+                {
+                    "id": 6,
+                    "sender_profile": 9,
+                    "receiver_profile": 4,
+                    "status": "ACCEPTED",
+                    "message": "I am interested in your profile.",
+                    "created_at": "2026-08-13T08:05:24.195987Z",
+                    "updated_at": "2026-08-13T08:06:21.225850Z"
+                },
+                {
+                    "id": 7,
+                    "sender_profile": 10,
+                    "receiver_profile": 4,
+                    "status": "ACCEPTED",
+                    "message": "I am interested in your profile.",
+                    "created_at": "2026-08-13T09:16:53.209584Z",
+                    "updated_at": "2026-08-13T09:18:21.566380Z"
+                }
+            ]
+        },
+        "matches": [
+            {
+                "id": 1,
+                "interest_request": {
+                    "id": 3,
+                    "sender_profile": 6,
+                    "receiver_profile": 4,
+                    "status": "ACCEPTED",
+                    "message": "I am interested in your profile.",
+                    "created_at": "2026-08-12T10:55:53.251008Z",
+                    "updated_at": "2026-08-12T12:18:57.904456Z"
+                },
+                "status": "CLOSED",
+                "matched_at": "2026-08-12T12:18:57.928217Z",
+                "updated_at": "2026-08-12T19:05:53.603157Z"
+            },
+            {
+                "id": 2,
+                "interest_request": {
+                    "id": 5,
+                    "sender_profile": 8,
+                    "receiver_profile": 4,
+                    "status": "ACCEPTED",
+                    "message": "I am interested in your profile.",
+                    "created_at": "2026-08-13T07:29:21.524530Z",
+                    "updated_at": "2026-08-13T07:29:56.578437Z"
+                },
+                "status": "ACTIVE",
+                "matched_at": "2026-08-13T07:29:56.581533Z",
+                "updated_at": "2026-08-13T07:29:56.581552Z"
+            },
+            {
+                "id": 3,
+                "interest_request": {
+                    "id": 6,
+                    "sender_profile": 9,
+                    "receiver_profile": 4,
+                    "status": "ACCEPTED",
+                    "message": "I am interested in your profile.",
+                    "created_at": "2026-08-13T08:05:24.195987Z",
+                    "updated_at": "2026-08-13T08:06:21.225850Z"
+                },
+                "status": "ACTIVE",
+                "matched_at": "2026-08-13T08:06:21.228861Z",
+                "updated_at": "2026-08-13T08:06:21.228892Z"
+            },
+            {
+                "id": 4,
+                "interest_request": {
+                    "id": 7,
+                    "sender_profile": 10,
+                    "receiver_profile": 4,
+                    "status": "ACCEPTED",
+                    "message": "I am interested in your profile.",
+                    "created_at": "2026-08-13T09:16:53.209584Z",
+                    "updated_at": "2026-08-13T09:18:21.566380Z"
+                },
+                "status": "ACTIVE",
+                "matched_at": "2026-08-13T09:18:21.571521Z",
+                "updated_at": "2026-08-13T09:18:21.571571Z"
+            }
+        ],
+        "meetings": [
+            {
+                "id": 1,
+                "match": 2,
+                "meeting_date": "2026-08-20",
+                "meeting_time": "18:30:00",
+                "venue": "St. Mary's Church, Ranchi",
+                "status": "SCHEDULED",
+                "remarks": "First meeting between both families.",
+                "created_at": "2026-08-13T07:30:49.796373Z",
+                "updated_at": "2026-08-13T07:30:49.796411Z"
+            },
+            {
+                "id": 2,
+                "match": 3,
+                "meeting_date": "2026-08-30",
+                "meeting_time": "18:30:00",
+                "venue": "St. Mary's Church, Ranchi",
+                "status": "CANCELLED",
+                "remarks": "First meeting between both families.",
+                "created_at": "2026-08-13T08:07:16.665308Z",
+                "updated_at": "2026-08-13T08:28:22.319985Z"
+            },
+            {
+                "id": 3,
+                "match": 4,
+                "meeting_date": "2026-08-22",
+                "meeting_time": "18:30:00",
+                "venue": "St. Mary's Church, Ranchi",
+                "status": "COMPLETED",
+                "remarks": "First meeting between both families.",
+                "created_at": "2026-08-13T09:20:02.934942Z",
+                "updated_at": "2026-08-13T09:54:26.176544Z"
+            }
+        ],
+        "marriages": [
+            {
+                "id": 1,
+                "meeting": 3,
+                "marriage_date": "2026-09-20",
+                "venue": "St. Mary's Church, Ranchi",
+                "pastor_name": "Pastor John",
+                "status": "COMPLETED",
+                "remarks": "Marriage ceremony scheduled successfully.",
+                "created_at": "2026-08-13T09:57:20.313112Z",
+                "updated_at": "2026-08-13T10:46:46.779636Z"
+            }
+        ],
+        "prayers": [
+            {
+                "id": 2,
+                "church": 1,
+                "church_name": "St. Peter Church",
+                "created_by": 7,
+                "created_by_name": "Sanju Sardar",
+                "title": "Prayer for Church Members",
+                "note": "Please pray for the health, peace and spiritual growth of all church members.",
+                "status": "ONGOING",
+                "created_at": "2026-08-14T08:32:31.435834Z",
+                "completed_at": null,
+                "updated_at": "2026-08-14T08:32:31.435985Z"
+            }
+        ],
+        "document": [
+            {
+                "id": 1,
+                "aadhaar": null,
+                "baptism_certificate": null,
+                "education_certificate": null,
+                "income_certificate": null,
+                "other_document": null,
+                "aadhaar_status": "PENDING",
+                "baptism_certificate_status": "PENDING",
+                "education_certificate_status": "PENDING",
+                "income_certificate_status": "PENDING",
+                "other_document_status": "PENDING",
+                "created_at": "2026-08-10T07:19:13.200976Z",
+                "updated_at": "2026-08-11T05:24:02.641768Z",
+                "profile": 4
+            }
+        ],
+        "family": [
+            {
+                "id": 2,
+                "father_name": "Ramesh Oraon",
+                "mother_name": "Sunita Oraon",
+                "father_occupation": "Government Employee",
+                "mother_occupation": "Teacher",
+                "brothers": 1,
+                "sisters": 2,
+                "family_type": "NUCLEAR",
+                "created_at": "2026-08-14T08:30:10.277737Z",
+                "updated_at": "2026-08-14T08:30:10.278882Z",
+                "profile": 4
+            }
+        ]
+    }
+}
+```

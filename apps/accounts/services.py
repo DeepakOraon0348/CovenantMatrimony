@@ -55,7 +55,7 @@ class RegisterUserService:
 
     @staticmethod
     def get_all_register_user():
-        user = User.objects.all()
+        user = User.objects.filter(role="USER")
         return user
 
     @staticmethod

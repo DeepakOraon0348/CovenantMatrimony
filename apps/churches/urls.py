@@ -1,4 +1,8 @@
+from django.templatetags import static
 from django.urls import path
+
+from django.conf import settings
+from django.conf.urls.static import static
 from . import views
 
 urlpatterns = [
@@ -82,3 +86,4 @@ urlpatterns = [
         name="get_all_churches_names_by_city",
     ),
 ]
+

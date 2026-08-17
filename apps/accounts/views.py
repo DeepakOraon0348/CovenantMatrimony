@@ -1,6 +1,7 @@
 import code
 from django.core.exceptions import ValidationError
 from rest_framework.permissions import IsAuthenticated
+from apps.common.pagination import UserPagination
 
 from apps.documents.serializers import DocumentSerializer
 from apps.family.serializers import FamilySerializer
@@ -71,12 +72,23 @@ class UserLoginAPI(APIView):
 
 
 class GetAllRegisterUser(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
+        
         user = RegisterUserService.get_all_register_user()
-        serializer = RegisterUserSerializer(user, many=True)
-        return Response(
-            {"message": "Get All Register User.", "data": serializer.data},
-            status=status.HTTP_200_OK,
+        
+        paginator = UserPagination()
+
+        paginated_users = paginator.paginate_queryset(
+            user,
+            request
+        )
+        serializer = RegisterUserSerializer(
+            paginated_users,
+            many=True
+        )
+        return paginator.get_paginated_response(
+            serializer.data
         )
 
 

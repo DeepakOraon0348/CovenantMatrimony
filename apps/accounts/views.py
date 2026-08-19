@@ -14,8 +14,6 @@ from apps.prayers.models import Prayer
 from apps.prayers.serializers import PrayerSerializer
 from apps.profiles.serializers import ProfileSerializers
 from apps.subscriptions.models import *
-from apps.branches.models import *
-from apps.churches.models import *
 from apps.documents.models import *
 from apps.family.models import *
 from apps.marriages.models import *

@@ -213,3 +213,101 @@ GET /api/branch/GetAllBranch/?status=APPROVED
     "pending": 2,
     "rejected": 1
 }
+# 8. All Pending Branch API: http://127.0.0.1:8000/api/branch/ListOfPendingBranch/
+## Method:Get,
+## Query parameters:no
+- Response:-
+```json
+{
+    "message": "List of Pending Branch",
+    "data": [
+        {
+            "id": 4,
+            "name": "Kharswan",
+            "email": "kharswan.branch@gmail.com",
+            "phone": "7480920155",
+            "pincode": "833225",
+            "code": "KHAR001",
+            "address": "Kharswan",
+            "city": "Kharswan",
+            "state": "Jharkhand",
+            "country": "India",
+            "description": "this is kharswan  branch.",
+            "logo": "/media/branches/logo/casa-bike_4mi1cBB.com_index.html.png",
+            "verification_status": "PENDING",
+            "is_active": false,
+            "created_at": "2026-08-17T10:05:08.756765Z",
+            "updated_at": "2026-08-17T10:05:08.756813Z",
+            "user": 23
+        }
+    ]
+}
+``` 
+# 9. All Approved Branch API:http://127.0.0.1:8000/api/branch/ListOfApprovedBranches/
+## Method:GET
+## Query Parameters:no
+- Response:-
+```json
+{
+    "message": "List of Approved Branch",
+    "data": [
+        {
+            "id": 2,
+            "name": "Jamshedpur Branch",
+            "email": "jamshedpur.branch@example.com",
+            "phone": "9876543210",
+            "pincode": "834001",
+            "code": "JSP00",
+            "address": "Main Road, Lalpur",
+            "city": "Ranchi",
+            "state": "Jharkhand",
+            "country": "India",
+            "description": "Regional branch serving churches across Jharkhand.",
+            "logo": "/media/branches/logo/WhatsApp_Image_2026-07-31_at_11_ffoRzLi.19.12.jpeg",
+            "verification_status": "APPROVED",
+            "is_active": true,
+            "created_at": "2026-08-05T07:14:17.974382Z",
+            "updated_at": "2026-08-17T09:58:37.987241Z",
+            "user": null
+        },
+        {
+            "id": 1,
+            "name": "Ranchi Branch",
+            "email": "ranchi.branch@example.com",
+            "phone": "9876543210",
+            "pincode": "834001",
+            "code": "RAN001",
+            "address": "Main Road, Lalpur",
+            "city": "Ranchi",
+            "state": "Jharkhand",
+            "country": "India",
+            "description": "Regional branch serving churches across Jharkhand.",
+            "logo": "/media/branches/logo/WhatsApp_Image_2026-07-31_at_11_LJRgIjy.19.12.jpeg",
+            "verification_status": "APPROVED",
+            "is_active": true,
+            "created_at": "2026-08-05T07:05:24.264212Z",
+            "updated_at": "2026-08-17T09:58:31.591357Z",
+            "user": null
+        },
+        {
+            "id": 3,
+            "name": "seraikella",
+            "email": "seraikella.branch@gmail.com",
+            "phone": "7480920110",
+            "pincode": "833219",
+            "code": "SER001",
+            "address": "Seraikella",
+            "city": "Seraikella",
+            "state": "Jharkhand",
+            "country": "India",
+            "description": "shfhshkhdisuhis",
+            "logo": "/media/branches/logo/casa-bike.com_index.html.png",
+            "verification_status": "APPROVED",
+            "is_active": false,
+            "created_at": "2026-08-17T09:57:45.797427Z",
+            "updated_at": "2026-08-17T09:58:13.993850Z",
+            "user": 22
+        }
+    ]
+}
+```

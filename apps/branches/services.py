@@ -114,3 +114,9 @@ class BranchService:
             verification_status=Branch.VerificationStatus.PENDING
         )
         return branches
+    @staticmethod
+    def Rejected_Branch():
+        branches=Branch.objects.filter(
+            verification_status=Branch.VerificationStatus.REJECTED
+        )
+        return branches

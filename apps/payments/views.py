@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import IsAuthenticated
 
+from apps.accounts.models import User
 from apps.payments.models import Payment
 from django.shortcuts import get_object_or_404
 
@@ -23,7 +24,7 @@ class CreatePaymentAPI(APIView):
     def post(self, request):
 
         plan_id = request.data.get("plan_id")
-
+        user_id = request.data.get("user_id")
         if not plan_id:
 
             return Response(
@@ -32,12 +33,38 @@ class CreatePaymentAPI(APIView):
                 },
                 status=status.HTTP_400_BAD_REQUEST,
             )
+            # --------------------------------------------------
+        # Validate user_id
+        # --------------------------------------------------
+
+        if not user_id:
+            return Response(
+                {
+                    "message": "user_id is required."
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        # --------------------------------------------------
+        # Get User object
+        # --------------------------------------------------
+
+        try:
+            user = User.objects.get(id=user_id)
+
+        except User.DoesNotExist:
+            return Response(
+                {
+                    "message": "User not found."
+                },
+                status=status.HTTP_404_NOT_FOUND,
+            )
+
 
         try:
 
             payment, razorpay_order = (
                 PaymentService.create_payment(
-                    user=request.user,
+                    user=user,
                     plan_id=plan_id,
                 )
             )
@@ -187,6 +214,57 @@ class GetPaymentAPI(APIView):
                 "data": PaymentSerializer(
                     payment
                 ).data,
+            },
+            status=status.HTTP_200_OK,
+        )
+        
+class AdminVerifyPaymentAPI(APIView):
+
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+
+        serializer = VerifyPaymentSerializer(
+            data=request.data
+        )
+
+        serializer.is_valid(
+            raise_exception=True
+        )
+
+        try:
+
+            payment = PaymentService.verify_payment_by_admin(
+                razorpay_payment_id=(
+                    serializer.validated_data[
+                        "razorpay_payment_id"
+                    ]
+                ),
+                razorpay_order_id=(
+                    serializer.validated_data[
+                        "razorpay_order_id"
+                    ]
+                ),
+                razorpay_signature=(
+                    serializer.validated_data[
+                        "razorpay_signature"
+                    ]
+                ),
+            )
+
+        except ValueError as error:
+
+            return Response(
+                {
+                    "message": str(error)
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+
+        return Response(
+            {
+                "message": "Payment verified successfully.",
+                "data": PaymentSerializer(payment).data,
             },
             status=status.HTTP_200_OK,
         )

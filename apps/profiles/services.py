@@ -60,7 +60,7 @@ class ProfileService:
 
     @staticmethod
     def get_all_profile():
-        profiles = Profile.objects.all()
+        profiles = Profile.objects.select_related("user", "denomination").all()
         return profiles
 
     @staticmethod

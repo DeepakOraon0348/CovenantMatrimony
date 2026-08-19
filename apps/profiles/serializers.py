@@ -1,12 +1,37 @@
 from rest_framework import serializers
 
+from apps.accounts.models import User
+
 from .models import Profile
 from .validators import *
+from apps.common.models import Denomination
 
+class ProfileDenominationSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Denomination
+        fields = [
+            "id",
+            "name",
+        ]
+
+class ProfileUserSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = User
+        fields = [
+            "id",
+            "first_name",
+            "last_name",
+            "email",
+            "phone",
+        ]
 
 class ProfileSerializers(serializers.ModelSerializer):
 
     profile_id = serializers.CharField(read_only=True)
+    user = ProfileUserSerializer(read_only=True)
+    denomination = ProfileDenominationSerializer(read_only=True)
 
     height = serializers.DecimalField(
         max_digits=4,

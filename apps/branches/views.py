@@ -4,10 +4,10 @@ from rest_framework import status
 
 from .serializers import *
 from .services import BranchService
-
+from rest_framework.permissions import IsAuthenticated
 
 class CreateBranchAPI(APIView):
-
+    
     def post(self, request):
 
         serializer = CreateBranchSerializer(data=request.data)
@@ -25,6 +25,7 @@ class CreateBranchAPI(APIView):
 
 
 class UpdateBranchAPI(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request, id):
         serializer = CreateBranchSerializer(data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
@@ -44,6 +45,7 @@ class UpdateBranchAPI(APIView):
 
 
 class GetAllBranchAPI(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
 
         branches = BranchService.get_all_branches()
@@ -61,6 +63,7 @@ class GetAllBranchAPI(APIView):
 
 
 class DeleteBranchAPI(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         branch_id = request.query_params.get("id")
         deletebranch = BranchService.Delete_branch(branch_id=branch_id)
@@ -72,6 +75,7 @@ class DeleteBranchAPI(APIView):
 
 
 class ApproveBranchAPI(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         branch_id = request.query_params.get("id")
         approvebranch = BranchService.Approve_Branch(branch_id=branch_id)
@@ -86,6 +90,7 @@ class ApproveBranchAPI(APIView):
 
 
 class GetCityBranchAPI(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         city = request.query_params.get("city")
         allcitybranch = BranchService.get_city_branch(city=city)
@@ -100,6 +105,7 @@ class GetCityBranchAPI(APIView):
 
 
 class RejectBranchAPI(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         branch_id = request.query_params.get("Branch_id")
 
@@ -129,6 +135,7 @@ class ActivateBranchAPI(APIView):
 
 
 class DeactivateBranchAPI(APIView):
+    permission_classes = [IsAuthenticated]
     def post(self, request):
         branch_id = request.query_params.get("Branch_id")
         deactivateBranch = BranchService.Deactivate_Branch(branch_id=branch_id)
@@ -213,6 +220,7 @@ class ListOfPendingBranchAPI(APIView):
 
 
 class RejectedBranchesAPI(APIView):
+    permission_classes = [IsAuthenticated]
     def get(self, request):
         rejectedBranch = BranchService.Rejected_Branch()
 
@@ -226,3 +234,4 @@ class RejectedBranchesAPI(APIView):
             },
             status=status.HTTP_200_OK,
         )
+    

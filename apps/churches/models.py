@@ -1,5 +1,4 @@
 from django.db import models
-
 from apps.branches.models import Branch
 
 
@@ -12,6 +11,13 @@ class Church(models.Model):
 
     branch = models.ForeignKey(
         Branch, on_delete=models.CASCADE, related_name="churches"
+    )
+    user = models.ForeignKey(
+        "accounts.User",
+        on_delete=models.CASCADE,
+        related_name="churches",
+        null=True,
+        blank=True,
     )
 
     name = models.CharField(max_length=200)

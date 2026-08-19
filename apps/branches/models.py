@@ -7,6 +7,14 @@ class Branch(models.Model):
         PENDING = "PENDING", "Pending"
         APPROVED = "APPROVED", "Approved"
         REJECTED = "REJECTED", "Rejected"
+        
+    user = models.ForeignKey(
+        "accounts.User",
+        on_delete=models.CASCADE,
+        related_name="branches",
+        null=True,
+        blank=True,
+    )
 
     name = models.CharField(max_length=150, unique=True)
     code = models.CharField(max_length=20, unique=True)

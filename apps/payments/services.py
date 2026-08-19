@@ -241,3 +241,134 @@ class PaymentService:
             pass
 
         return payment
+    
+    
+    @staticmethod
+    @transaction.atomic
+    def verify_payment_by_admin(
+        razorpay_payment_id,
+        razorpay_order_id,
+        razorpay_signature,
+    ):
+
+    # ======================================================
+    # FIND PAYMENT
+    # ======================================================
+
+        payment = get_object_or_404(
+            Payment,
+            razorpay_order_id=razorpay_order_id,
+        )
+
+    # ======================================================
+    # PREVENT DUPLICATE VERIFICATION
+    # ======================================================
+
+        if payment.payment_status == PaymentStatus.SUCCESS:
+            return payment
+
+    # ======================================================
+    # VERIFY RAZORPAY SIGNATURE
+    # ======================================================
+
+        client = PaymentService.get_razorpay_client()
+
+        try:
+
+            client.utility.verify_payment_signature(
+                {
+                    "razorpay_order_id": razorpay_order_id,
+                    "razorpay_payment_id": razorpay_payment_id,
+                    "razorpay_signature": razorpay_signature,
+                }
+            )
+
+        except razorpay.errors.SignatureVerificationError:
+
+            payment.payment_status = PaymentStatus.FAILED
+
+            payment.save(
+                update_fields=[
+                    "payment_status",
+                    "updated_at",
+                ]
+            )
+
+            raise ValueError(
+                "Payment signature verification failed."
+            )
+
+    # ======================================================
+    # UPDATE PAYMENT
+    # ======================================================
+
+        payment.razorpay_payment_id = razorpay_payment_id
+        payment.razorpay_signature = razorpay_signature
+        payment.transaction_id = razorpay_payment_id
+        payment.payment_status = PaymentStatus.SUCCESS
+        payment.paid_at = timezone.now()
+
+        payment.save()
+
+    # ======================================================
+    # GET CUSTOMER
+    # ======================================================
+
+        user = payment.user
+
+    # ======================================================
+    # CREATE SUBSCRIPTION
+    # ======================================================
+
+        start_date = timezone.now()
+
+        expiry_date = (
+            start_date
+            + timezone.timedelta(
+                days=payment.plan.duration_days
+            )
+        )
+
+        user_subscription = UserSubscription.objects.create(
+            user=user,
+            plan=payment.plan,
+            start_date=start_date,
+            expiry_date=expiry_date,
+            is_active=True,
+        )
+
+    # ======================================================
+    # LINK SUBSCRIPTION TO PAYMENT
+    # ======================================================
+
+        payment.user_subscription = user_subscription
+
+        payment.save(
+            update_fields=[
+                "user_subscription",
+                "updated_at",
+            ]
+        )
+
+    # ======================================================
+    # MAKE PROFILE PHOTO VISIBLE
+    # ======================================================
+
+        try:
+
+            profile = user.profile
+
+            profile.is_photo_visible = True
+
+            profile.save(
+                update_fields=[
+                    "is_photo_visible",
+                    "updated_at",
+                ]
+            )
+
+        except Profile.DoesNotExist:
+
+            pass
+
+        return payment

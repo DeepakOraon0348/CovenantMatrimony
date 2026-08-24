@@ -62,3 +62,24 @@ class RegisterUserService:
     def numbers_of_users():
         users = User.objects.all()
         return users
+    
+    @staticmethod
+    def update_profile(profile, validated_data):
+
+        for field, value in validated_data.items():
+            setattr(
+                profile,
+                field,
+                value
+            )
+
+        profile.save()
+
+        return profile
+
+    @staticmethod
+    def delete_profile(profile):
+
+        profile.delete()
+
+        return True

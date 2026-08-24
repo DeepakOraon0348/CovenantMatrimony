@@ -9,7 +9,8 @@
     "baptism_certificate":
     "education_certificate"
     "income_certificate"
-    "profile_id":4,
+    "profile_id":,
+    "other_document":,
 }
 ```
 - Response:-

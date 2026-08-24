@@ -7,12 +7,11 @@ from .models import Document, DocumentStatus
 class DocumentService:
 
     @staticmethod
-    def upload_documents(profile_id, user, validated_data):
+    def upload_documents(profile_id, validated_data):
 
         profile = get_object_or_404(
             Profile,
             id=profile_id,
-            user=user,
         )
 
         document, created = Document.objects.get_or_create(
@@ -49,6 +48,10 @@ class DocumentService:
             Document,
             profile=profile,
         )
+    @staticmethod 
+    def admin_get_documents(profile_id):
+        document=Document.objects.filter(profile=profile_id).first();
+        return document;   
 
     @staticmethod
     def update_documents(profile_id, user, validated_data):

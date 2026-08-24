@@ -79,7 +79,64 @@ class ProfileSerializers(serializers.ModelSerializer):
             "updated_at",
         )
 
+class CreateProfileSerializer(serializers.ModelSerializer):
 
+    user = serializers.PrimaryKeyRelatedField(
+        queryset=User.objects.all()
+    )
+
+    denomination = serializers.PrimaryKeyRelatedField(
+        queryset=Denomination.objects.all()
+    )
+
+    height = serializers.DecimalField(
+        max_digits=4,
+        decimal_places=1,
+        validators=[validate_height],
+    )
+
+    weight = serializers.IntegerField(
+        validators=[validate_weight],
+    )
+
+    education = serializers.CharField(
+        validators=[validate_education],
+    )
+
+    occupation = serializers.CharField(
+        validators=[validate_occupation],
+    )
+
+    annual_income = serializers.DecimalField(
+        max_digits=12,
+        decimal_places=2,
+        required=False,
+        allow_null=True,
+        validators=[validate_annual_income],
+    )
+
+    about_me = serializers.CharField(
+        validators=[validate_about_me],
+    )
+
+    class Meta:
+        model = Profile
+
+        fields = [
+            "user",
+            "profile_type",
+            "gender",
+            "date_of_birth",
+            "denomination",
+            "marital_status",
+            "height",
+            "weight",
+            "education",
+            "occupation",
+            "annual_income",
+            "about_me",
+            "profile_photo",
+        ]
 class UpdateProfileSerializer(serializers.ModelSerializer):
 
     height = serializers.DecimalField(

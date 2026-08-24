@@ -10,14 +10,24 @@ from .services import *
 # Create your views here.
 class CreateProfileAPI(APIView):
     def post(self, request):
-        serializer = ProfileSerializers(data=request.data)
+        serializer = CreateProfileSerializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data["user"]
+        
+        if Profile.objects.filter(user=user).exists():
+
+            return Response(
+                {
+                    "message": "This user already has a profile."
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         created_church = ProfileService.create_Profile(serializer.validated_data)
         return Response(
             {
                 "message": "Profile created successfully.",
-                "data": ProfileSerializers(created_church).data,
+                "data": CreateProfileSerializer(created_church).data,
             },
             status=status.HTTP_201_CREATED,
         )

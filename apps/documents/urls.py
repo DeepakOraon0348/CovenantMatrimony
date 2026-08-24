@@ -39,4 +39,5 @@ urlpatterns = [
         views.DeleteDocumentAPI.as_view(),
         name="delete-document",
     ),
+    path("AdminGetDocuments/", views.AdminGetDocumentsAPI.as_view(), name="admin-get-documents"),
 ]

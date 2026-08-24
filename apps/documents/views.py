@@ -23,7 +23,7 @@ class UploadDocumentsAPI(APIView):
 
         document = DocumentService.upload_documents(
             profile_id=profile_id,
-            user=request.user,
+            # user=request.user,
             validated_data=serializer.validated_data,
         )
 
@@ -72,6 +72,13 @@ class GetMyDocumentsAPI(APIView):
 
     def get(self, request):
         profile_id=request.query_params.get("profile_id")
+        if not profile_id:
+            return Response(
+                {
+                    "message":"profile id required.",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
         document = DocumentService.get_my_documents(
             profile_id=profile_id,
@@ -86,7 +93,39 @@ class GetMyDocumentsAPI(APIView):
             status=status.HTTP_200_OK,
         )
 
+class AdminGetDocumentsAPI(APIView):
+    parser_classes=[IsAuthenticated]
 
+    def get(self, request):
+        profile_id = request.query_params.get("profile_id")
+
+        if not profile_id:
+            return Response(
+                {
+                    "message": "Profile id is required.",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        documents=DocumentService.admin_get_documents(profile_id=profile_id)
+        if not documents:
+            return Response(
+                {
+                    "message":"No documents found for this profile.",
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
+        print("PROFILE ID:", profile_id)
+        print("DOCUMENT:", documents)
+
+         
+        serilizers=DocumentSerializer(documents);
+        return Response(
+            {
+                "message":"User documents fetched successfully. ",
+                "data":serilizers.data
+            }
+        )
+        
 class DeleteDocumentAPI(APIView):
 
     permission_classes = [IsAuthenticated]
